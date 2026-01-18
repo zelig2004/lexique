@@ -1,0 +1,33 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 20px;
+  background: #f5f5f5;
+}
+
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+button {
+  background: #007aff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+#resultat {
+  margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+li {
+  background: white;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}

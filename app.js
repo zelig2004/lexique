@@ -2,19 +2,21 @@ async function chercherMot() {
   const mot = document.getElementById("mot").value.trim();
   if (!mot) return;
 
-  const url = `https://fr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(mot)}`;
+  const url = `https://api-definition.fgainza.fr/?word=${encodeURIComponent(mot)}`;
 
   try {
     const res = await fetch(url);
     const data = await res.json();
 
-    if (!data.extract) {
-      alert("Mot non trouvé");
+    if (!data.definitions || data.definitions.length === 0) {
+      alert("Mot non trouvé dans le Wiktionnaire");
       return;
     }
 
-    sauvegarderMot(mot, data.extract);
-    afficherMot(mot, data.extract);
+    const definition = data.definitions[0].definition;
+
+    sauvegarderMot(mot, definition);
+    afficherMot(mot, definition);
     afficherLexique();
 
   } catch (e) {
@@ -29,8 +31,13 @@ function sauvegarderMot(mot, definition) {
 }
 
 function afficherMot(mot, definition) {
-  document.getElementById("resultat").innerHTML =
-    `<h3>${mot}</h3><p>${definition}</p>`;
+  document.getElementById("resultat").innerHTML = `
+    <h3>${mot}</h3>
+    <p>${definition}</p>
+    <p style="font-size:12px;color:#666">
+      Source : Wiktionnaire (CC BY-SA)
+    </p>
+  `;
 }
 
 function afficherLexique() {
@@ -38,7 +45,7 @@ function afficherLexique() {
   const ul = document.getElementById("lexique");
   ul.innerHTML = "";
 
-  lexique.forEach((item, index) => {
+  lexique.forEach(item => {
     const li = document.createElement("li");
     li.innerHTML = `<strong>${item.mot}</strong><br>${item.definition}`;
     ul.appendChild(li);
